@@ -1,29 +1,13 @@
 package org.function.policies;
 
-import org.function.CachePolicy;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 import static org.function.policies.BoundedCachePolicy.EVICTION_POLICY.ACCESS_ORDER;
 
-public class BoundedCachePolicy<I, O> implements CachePolicy<I, O> {
-    private final Map<I, O> cache;
-
+public class BoundedCachePolicy<I, O> extends AbstractCachePolicy<I, O> {
     public BoundedCachePolicy(int capacity, EVICTION_POLICY evictionPolicy) {
-        final boolean accessOrder = evictionPolicy == ACCESS_ORDER;
-        this.cache = new BoundedLinkedHashMap<>(capacity, accessOrder);
-    }
-
-    @Override
-    public O computeIfAbsent(I input, Function<I, O> function) {
-        return cache.computeIfAbsent(input, function);
-    }
-
-    @Override
-    public String toString() {
-        return cache.toString();
+        super(new BoundedLinkedHashMap<>(capacity, evictionPolicy == ACCESS_ORDER));
     }
 
     public enum EVICTION_POLICY {
