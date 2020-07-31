@@ -3,14 +3,15 @@ package org.function.policies;
 import org.function.CachePolicy;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
+
+import static java.util.Objects.requireNonNull;
 
 public abstract class AbstractCachePolicy<I, O> implements CachePolicy<I, O> {
     protected final Map<I, O> cache;
 
     protected AbstractCachePolicy(Map<I, O> cache) {
-        this.cache = Objects.requireNonNull(cache);
+        this.cache = requireNonNull(cache);
     }
 
     @Override
